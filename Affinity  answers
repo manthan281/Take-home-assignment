@@ -1,0 +1,32 @@
+import csv
+
+# Load the file containing Twitter tweets into a list
+tweets = []
+with open('tweets.csv', 'r') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        tweets.append(row[0])
+
+# Load the set of words that indicates racial slurs into a list
+racial_slurs = ['word1', 'word2', 'word3', ...]
+
+# Define a function that takes a sentence as input and returns the degree of profanity
+def calculate_profanity(sentence):
+    words = sentence.split()
+    num_racial_slurs = 0
+    for word in words:
+        if word.lower() in racial_slurs:
+            num_racial_slurs += 1
+    return num_racial_slurs / len(words)
+
+# Calculate the degree of profanity for each sentence in the file
+profanity_scores = []
+for tweet in tweets:
+    score = calculate_profanity(tweet)
+    profanity_scores.append(score)
+
+# Write the output to a new file
+with open('profanity_scores.csv', 'w') as f:
+    writer = csv.writer(f)
+    for score in profanity_scores:
+        writer.writerow([score])
